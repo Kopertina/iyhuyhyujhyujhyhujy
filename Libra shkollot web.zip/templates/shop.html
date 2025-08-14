@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Dyqani</h1>
+
+<form class="search" method="get" action="{{ url_for('shop') }}">
+  <input type="text" name="q" value="{{ q or '' }}" placeholder="Kërko sipas titullit ose autorit...">
+  {% if active_grade %}
+    <input type="hidden" name="grade" value="{{ active_grade }}">
+  {% endif %}
+  <button class="btn" type="submit">Kërko</button>
+</form>
+
+<div class="pill-group">
+  <a class="pill {% if not active_grade %}active{% endif %}" href="{{ url_for('shop') }}">Të gjitha</a>
+  {% for g in grades %}
+    <a class="pill {% if active_grade and active_grade|int == g %}active{% endif %}" href="{{ url_for('shop', grade=g, q=q) }}">Klasa {{ g }}</a>
+  {% endfor %}
+</div>
+
+{% if products|length == 0 %}
+  <p>Nuk u gjet asnjë libër.</p>
+{% else %}
+  <div class="grid">
+    {% for p in products %}
+    <div class="card">
+      <img src="{{ p['image_url'] }}" alt="{{ p['title'] }}">
+      <div class="card-body">
+        <h3>{{ p['title'] }}</h3>
+        <p class="muted">{{ p['author'] }}</p>
+        <p class="muted">Klasa {{ p['grade'] }}</p>
+        <p class="price">{{ "%.2f"|format(p['price']) }} €</p>
+        <form method="post" action="{{ url_for('add_to_cart') }}">
+          <input type="hidden" name="product_id" value="{{ p['id'] }}">
+          <label>Sasia</label>
+          <input type="number" name="quantity" min="1" value="1">
+          <button class="btn">Shto në shportë</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

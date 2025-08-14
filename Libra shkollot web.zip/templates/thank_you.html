@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Faleminderit për porosinë!</h1>
+<p>Ne do t’ju kontaktojmë për konfirmim. Numri i porosisë: <b>#{{ order_id }}</b>.</p>
+<a class="btn" href="{{ url_for('shop') }}">Kthehu te dyqani</a>
+{% endblock %}

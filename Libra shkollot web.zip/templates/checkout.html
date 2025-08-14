@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Arka</h1>
+<p>Pagesa kryhet dorazi (në dorëzim ose tërheqje). Totali: <b>{{ format_eur(total) }}</b></p>
+<form method="post" class="form">
+  <label>Emri i plotë</label>
+  <input type="text" name="name" required>
+
+  <label>Numri i telefonit</label>
+  <input type="tel" name="phone" required pattern="^[0-9 +()-]{6,}$" placeholder="+383 ...">
+
+  <label>Adresa e dorëzimit</label>
+  <textarea name="address" required rows="3" placeholder="Rruga, Nr., Qyteti"></textarea>
+
+  <label>Shënime (opsionale)</label>
+  <textarea name="note" rows="2" placeholder="Orari i preferuar, hyrja, etj."></textarea>
+
+  <button class="btn" type="submit">Vendos porosinë</button>
+</form>
+{% endblock %}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="sq">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Libraria Shkollore</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="logo" href="{{ url_for('index') }}">Libraria Shkollore</a>
+    <nav>
+      <a href="{{ url_for('shop') }}">Dyqani</a>
+      <a href="{{ url_for('contact') }}">Na kontaktoni</a>
+      <a href="{{ url_for('cart_view') }}">Shporta 🛒</a>
+    </nav>
+  </div>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="container">
+  {% for category, message in messages %}
+    <div class="alert {{ category }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<main class="container">
+  {% if content %}
+    {{ content|safe }}
+  {% else %}
+    {% block content %}{% endblock %}
+  {% endif %}
+</main>
+
+<footer>
+  <div class="container foot">
+    <div>© {{ 2025 }} Libraria Shkollore — Prishtinë</div>
+    <div><a href="{{ url_for('admin_login') }}">Admin</a></div>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

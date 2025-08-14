@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Libra për klasat 1–9</h1>
+  <p>Porosit tani dhe paguaj dorazi. Dërgesa në adresën tuaj.</p>
+  <a class="btn" href="{{ url_for('shop') }}">Shiko të gjitha librat</a>
+</section>
+
+<section>
+  <h2>Filtro sipas klasës</h2>
+  <div class="pill-group">
+    {% for g in grades %}
+      <a class="pill" href="{{ url_for('shop', grade=g) }}">Klasa {{ g }}</a>
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <h2>Të përzgjedhura së fundmi</h2>
+  <div class="grid">
+    {% for p in products %}
+    <div class="card">
+      <img src="{{ p['image_url'] }}" alt="{{ p['title'] }}">
+      <div class="card-body">
+        <h3>{{ p['title'] }}</h3>
+        <p class="muted">{{ p['author'] }}</p>
+        <p class="price">{{ "%.2f"|format(p['price']) }} €</p>
+        <form method="post" action="{{ url_for('add_to_cart') }}">
+          <input type="hidden" name="product_id" value="{{ p['id'] }}">
+          <button class="btn">Shto në shportë</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

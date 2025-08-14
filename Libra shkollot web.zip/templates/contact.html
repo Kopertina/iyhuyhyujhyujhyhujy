@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Na kontaktoni</h1>
+<form method="post" class="form">
+  <label>Emri</label>
+  <input type="text" name="name" required>
+
+  <label>Email (opsionale)</label>
+  <input type="email" name="email">
+
+  <label>Telefon (opsionale)</label>
+  <input type="tel" name="phone">
+
+  <label>Mesazhi</label>
+  <textarea name="message" required rows="4"></textarea>
+
+  <button class="btn" type="submit">Dërgo</button>
+</form>
+{% endblock %}

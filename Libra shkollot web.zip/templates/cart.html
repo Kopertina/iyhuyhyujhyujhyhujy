@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Shporta</h1>
+{% if items|length == 0 %}
+  <p>Shporta është bosh.</p>
+  <a class="btn" href="{{ url_for('shop') }}">Vazhdo blerjet</a>
+{% else %}
+<form method="post" action="{{ url_for('update_cart') }}">
+  <table class="table">
+    <thead>
+      <tr><th>Produkt</th><th>Autori</th><th>Çmimi</th><th>Sasia</th><th>Nëntotali</th></tr>
+    </thead>
+    <tbody>
+      {% for it in items %}
+      <tr>
+        <td class="td-flex">
+          <img class="thumb" src="{{ it.image_url }}" alt="">
+          {{ it.title }}
+        </td>
+        <td>{{ it.author }}</td>
+        <td>{{ "%.2f"|format(it.price) }} €</td>
+        <td>
+          <input type="number" name="qty_{{ it.id }}" min="0" value="{{ it.qty }}">
+        </td>
+        <td>{{ "%.2f"|format(it.subtotal) }} €</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="cart-actions">
+    <div class="total"><b>Total:</b> {{ "%.2f"|format(total) }} €</div>
+    <div>
+      <button class="btn btn-secondary" type="submit">Përditëso shportën</button>
+      <a class="btn" href="{{ url_for('checkout') }}">Vazhdo te Arka</a>
+    </div>
+  </div>
+</form>
+{% endif %}
+{% endblock %}

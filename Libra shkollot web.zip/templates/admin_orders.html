@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Porositë</h1>
+<div class="pill-group">
+  <a class="pill {% if not active_status %}active{% endif %}" href="{{ url_for('admin_orders') }}">Të gjitha</a>
+  {% for s in ['PENDING','CONFIRMED','COMPLETED','CANCELLED'] %}
+    <a class="pill {% if active_status == s %}active{% endif %}" href="{{ url_for('admin_orders', status=s) }}">{{ s }}</a>
+  {% endfor %}
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th><th>Klienti</th><th>Kontakt</th><th>Adresa</th><th>Produkte</th><th>Total</th><th>Status</th><th>Datë</th><th>Veprime</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for o in orders %}
+    <tr>
+      <td>{{ o['id'] }}</td>
+      <td>{{ o['customer_name'] }}</td>
+      <td>{{ o['phone'] }}</td>
+      <td style="max-width:260px">{{ o['address'] }}</td>
+      <td style="max-width:340px">{{ o['items'] }}</td>
+      <td>{{ "%.2f"|format(o['total_price']) }} €</td>
+      <td>{{ o['status'] }}</td>
+      <td>{{ o['created_at'] }}</td>
+      <td>
+        <form method="post" action="{{ url_for('admin_update_status', order_id=o['id']) }}">
+          <select name="status">
+            {% for s in ['PENDING','CONFIRMED','COMPLETED','CANCELLED'] %}
+              <option value="{{ s }}" {% if o['status']==s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+          </select>
+          <button class="btn btn-secondary" type="submit">Ruaj</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
